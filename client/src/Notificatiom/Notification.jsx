@@ -1,29 +1,26 @@
 import * as api from '../api'
 
-const createNotification = () => {
-    if(!("Notification" in window)){(alert("no"))}
-    else if (Notification.permission === 'granted') {
-        const notification = new Notification({
-            notificationText: 'There is a new post available.',
-          });
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-          createNotification();
-        }
-      });
-    }
-  };
-  
 
-export const checkNotification = (id) => async(dispatch) => {
+export const checkNotification = (id,toast) => async(dispatch) => {
   try {
-    const {data} = await api.getNotification(id);
-    console.log( data )
-    for (let i = 0; i <= data.length; i++) {
-        createNotification()
-        console.log('try')
-      }
+    
+    const {data} = await api.getNotification(id)
+    if(data.length > 0){
+      for (let i = 0; i < data.length; i++) {
+        const user = data[i].userPosted
+        const question = data[i].questionid
+        toast.success(`${user} answered for your question`, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          },onclick = () =>{window.location.href = `https://localhost:3000/Questions/${question}`});
+        }
+    }
   } catch (error) {
     console.log(error)
   }
