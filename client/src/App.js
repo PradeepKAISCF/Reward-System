@@ -1,7 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Notifications } from 'react-push-notification';
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import AllRoutes from "./AllRoutes";
