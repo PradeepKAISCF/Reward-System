@@ -18,7 +18,7 @@ export const checkNotification = (id,toast) => async(dispatch) => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          },onclick = () =>{window.location.href = `https://localhost:3000/Questions/${question}`});
+          },onclick = () =>{window.location.href = `https://reward-system-git-main-pradeeps-projects-87d4d2c0.vercel.app/Questions/${question}`});
         }
     }
   } catch (error) {
