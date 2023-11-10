@@ -23,7 +23,7 @@ function Home() {
                     return (
                         <div key={vi._id} >
                             <Link to={`/videopage/${vi?._id}`}>
-                                <video src={`http://localhost:5000/${vi.filePath}`} style={{width:'1500pxx' ,height:'150px'}}/>
+                                <video src={`https://reward-system-backend.vercel.app/${vi.filePath}`} style={{width:'1500pxx' ,height:'150px'}}/>
                             </Link>
                             <h5 style={{textAlign:'center'}}>{vi.videoTitle}</h5>
                         </div>
