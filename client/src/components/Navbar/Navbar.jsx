@@ -53,6 +53,9 @@ const Navbar = ({ handleSlideIn }) => {
           <Link to="/" className="nav-item nav-btn res-nav">
             For Teams
           </Link>
+          <Link to="/video" className="nav-item nav-btn res-nav">
+            Video
+          </Link>
           <form>
             <input type="text" placeholder="Search..." />
             <img src={search} alt="search" width="18" className="search-icon" />

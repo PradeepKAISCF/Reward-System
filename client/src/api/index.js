@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://reward-system-backend.vercel.app",
+  baseURL: "http://localhost:5000/",
 });
 
 API.interceptors.request.use((req) => {
@@ -33,3 +33,7 @@ export const updateProfile = (id, updateData) =>
   API.patch(`/user/update/${id}`, updateData);
 
 export const getNotification = (id) => API.get(`/notify/${id}`)
+
+export const uploadVideo = (fileData, fileOptions) =>
+  API.post("/video/uploadVideo", fileData, fileOptions);
+export const getVideos = () => API.get("/video/getvideos");

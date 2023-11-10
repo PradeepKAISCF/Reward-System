@@ -9,6 +9,9 @@ import DisplayQuestion from "./Pages/Questions/DisplayQuestion";
 import Tags from "./Pages/Tags/Tags";
 import Users from "./Pages/Users/Users";
 import UserProfile from "./Pages/UserProfile/UserProfile";
+import VideoHome from "./Pages/Home/VideoHome";
+import VideoUploader from "./Pages/VideoUploader/VideoUploader";
+import Videoplayer from "./Pages/VideoPlyr/VideoPlyr";
 
 const AllRoutes = ({ slideIn, handleSlideIn }) => {
   return (
@@ -43,6 +46,19 @@ const AllRoutes = ({ slideIn, handleSlideIn }) => {
           <UserProfile slideIn={slideIn} handleSlideIn={handleSlideIn} />
         }
       />
+      <Route
+        path="/video"
+        element={
+          <VideoHome/>
+        }
+      />
+      <Route
+        path="/uploads"
+        element={
+          <VideoUploader/>
+        }
+      />
+      <Route path='/videopage/:vid' element={<Videoplayer/>}/>
     </Routes>
   );
 };

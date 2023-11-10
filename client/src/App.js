@@ -9,6 +9,7 @@ import AllRoutes from "./AllRoutes";
 import { fetchAllQuestions } from "./actions/question";
 import { fetchAllUsers } from "./actions/users";
 import {checkNotification} from './Notificatiom/Notification'
+import { getAllVideo } from "./actions/video";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function App() {
   const id = (JSON.parse(localStorage.getItem("Profile")))?.result?._id
 
   useEffect(() => {
+
     dispatch(fetchAllQuestions());
     dispatch(fetchAllUsers());
   }, [dispatch]);
@@ -36,6 +38,10 @@ function App() {
       setSlideIn(false);
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(getAllVideo())
+  },[dispatch])
 
   const handleSlideIn = () => {
     if (window.innerWidth <= 760) {
