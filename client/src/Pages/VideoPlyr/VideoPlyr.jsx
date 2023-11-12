@@ -68,7 +68,7 @@ function Videoplayer() {
       </h1>
       <div style={{ width: '800px', height: '450px' }}>
           <video controls ref={player} /* onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} */ >
-            <source src={`https://reward-system-backend.vercel.app/${vv.filePath}`} type="video/mp4" />
+            <source src={`https://rewardsystem-ec650fd88bfa.herokuapp.com/${vv.filePath}`} type="video/mp4" />
           </video>
       </div>
     </div>
