@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://reward-system-backend.vercel.app/",
+  baseURL: "https://rewardsystem-ec650fd88bfa.herokuapp.com/",
 });
 
 API.interceptors.request.use((req) => {
