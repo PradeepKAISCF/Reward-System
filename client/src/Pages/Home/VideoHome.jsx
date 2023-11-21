@@ -23,7 +23,7 @@ function Home() {
                     return (
                         <div key={vi._id} >
                             <Link to={`/videopage/${vi?._id}`}>
-                                <video src={`https://rewardsystem-ec650fd88bfa.herokuapp.com/${vi.filePath}`} style={{width:'1500pxx' ,height:'150px'}}/>
+                                <video src={`https://rewardsystem-6c1a645e0d72.herokuapp.com/${vi.filePath}`} style={{width:'1500pxx' ,height:'150px'}}/>
                             </Link>
                             <h5 style={{textAlign:'center'}}>{vi.videoTitle}</h5>
                         </div>
