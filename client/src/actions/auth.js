@@ -24,3 +24,13 @@ export const login = (authData, navigate) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const fcm = (fcmtoken, userid) => async (dispatch) => {
+  try {
+    console.log(fcmtoken)
+    await api.posttoken(fcmtoken,userid);
+  } catch (error) {
+    console.log(error);
+  }
+};
+

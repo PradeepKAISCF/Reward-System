@@ -1,27 +1,36 @@
-import * as api from '../api'
+import React, {useState, useEffect} from 'react'
+import toast, { Toaster } from 'react-hot-toast';
+import { requestForToken, onMessageListener } from '../firebase';
 
+const Notification = () => {
+  const [notification, setNotification] = useState({title: '', body: ''});
+  const notify = () =>  toast(<ToastDisplay/>); 
+  function ToastDisplay() {
+    return (
+      <div>
+        <p><b>{notification?.title}</b></p>
+        <p>{notification?.body}</p>
+      </div>
+    );
+  };
 
-export const checkNotification = (id,toast) => async(dispatch) => {
-  try {
-    
-    const {data} = await api.getNotification(id)
-    if(data.length > 0){
-      for (let i = 0; i < data.length; i++) {
-        const user = data[i].userPosted
-        const question = data[i].questionid
-        toast.success(`${user} answered for your question`, {
-          position: "top-right",
-          autoClose: false,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          },onclick = () =>{window.location.href = `https://reward-system-git-main-pradeeps-projects-87d4d2c0.vercel.app/Questions/${question}`});
-        }
+  useEffect(() => {
+    if (notification?.title ){
+     notify()
     }
-  } catch (error) {
-    console.log(error)
-  }
+  }, [notification])
+
+  requestForToken();
+
+  onMessageListener()
+    .then((payload) => {
+      setNotification({title: payload?.notification?.title, body: payload?.notification?.body});     
+    })
+    .catch((err) => console.log('failed: ', err));
+
+  return (
+     <Toaster/>
+  )
 }
+
+export default Notification

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 import 'plyr/dist/plyr.css'; // Import Plyr styles
 import Plyr from 'plyr';
 import { useParams } from 'react-router-dom';
@@ -15,31 +15,43 @@ function Videoplayer() {
 
   useEffect(() => {
     if (player.current) {
-        const plyr = new Plyr(player.current);
+        const plyr = new Plyr(player.current,{fullscreen:{ enabled: false, fallback: false, },clickToPlay:false});
 
-        
+        let mouse;
+
+        plyr.on('dblclick',(e)=>{
+          if(e.clientX < 300) {plyr.rewind(5)}
+          else if(e.clientX < 500 && e.clientX>300) {plyr.togglePlay()}
+          else if(e.clientX < 800) {plyr.forward(10)}
+        })
+
+        plyr.on('mousedown',(e)=>{
+          mouse = setTimeout(()=>{
+            if (e.clientX >500){plyr.speed=2}
+            if (e.clientX < 300){plyr.speed=1}
+          },1000)
+        })
+
+        plyr.on('mouseup',()=>{clearTimeout(mouse)})
+
         let spacebarTimer;
-        let longPressDetected = false;
-
         let lastKeyPressed;
         let lastKeyPressTime;
 
         const handleKeyDown = (e) => {
               spacebarTimer = setTimeout(() => {
-                  longPressDetected = true;
-                  if (longPressDetected) {
                       if(e.key === 'ArrowRight'){plyr.speed = 2}
                       if(e.key === 'ArrowLeft'){plyr.speed = 1}
-                  }
               }, 200);
       };
 
         const handleKeyUp = (e) => {
           clearTimeout(spacebarTimer);
-            if(lastKeyPressed === e.key && (Date.now() - lastKeyPressTime) < 500){handleDoubleClick(e.key)}
+            if(lastKeyPressed === e.key && (Date.now() - lastKeyPressTime) < 500){handleDoubleClick(e.key,plyr)}
             else{lastKeyPressTime=Date.now();lastKeyPressed=e.key}
             
         };
+
 
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
@@ -52,23 +64,22 @@ function Videoplayer() {
     }
 }, []);
 
-  const handleDoubleClick = (side) => {
-    const currentTime = player.current.currentTime;
+  const handleDoubleClick = (side,plyr) => {
     if (side === 'ArrowLeft') {
-      player.current.currentTime = currentTime - 5;
+      plyr.rewind(5)
     } else if (side === 'ArrowRight') {
-      player.current.currentTime = currentTime + 10;
+      plyr.forward(10)
     }
   };
   
   return (
     <div style={{marginTop:'50px'}}>
-      <h1>
+      <h1 onClick={(e) =>{console.log(e.clientX)}}>
         video player {/* {vv.filePath} */}
       </h1>
       <div style={{ width: '800px', height: '450px' }}>
-          <video controls ref={player} /* onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} */ >
-            <source src={`http://localhost:5000/${vv.filePath}`} type="video/mp4" />
+          <video controls ref={player}  >
+            <source src={`https://rewardsystem-ec650fd88bfa.herokuapp.com/${vv.filePath}`} type="video/mp4" />
           </video>
       </div>
     </div>

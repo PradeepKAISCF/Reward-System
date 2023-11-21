@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import Questions from '../models/Questions.js'
 import User from '../models/auth.js'
+import { getMessaging } from "firebase-admin/messaging";
 
 export const postAnswer = async(req,res) => {
     const{id:_id } = req.params;
@@ -15,6 +16,24 @@ export const postAnswer = async(req,res) => {
         await User.findByIdAndUpdate(userId,{$inc:{point:30}})
         const questionOwner = await Questions.findById(_id)
         await User.findByIdAndUpdate(questionOwner.userId,{$addToSet:{'notification':[{questionid:_id,userPosted: userAnswered}]}})
+        const questionuser = await User.findById(questionOwner.userId)
+        const userToken = questionuser.token
+        const message = {
+            notification: {
+              title: "You got an Answer",
+              body: `${userAnswered} answered ur Question`
+            },
+            token: userToken,
+          };
+          
+          getMessaging()
+            .send(message)
+            .then((response) => {
+              console.log("Successfully sent message:", response);
+            })
+            .catch((error) => {
+              console.log("Error sending message:", error);
+            });
         res.status(200).json(updatedQuestion)
     }catch(error){
         res.status(404).json(error)

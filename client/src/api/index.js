@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/",
+  baseURL: "https://rewardsystem-ec650fd88bfa.herokuapp.com/",
 });
 
 API.interceptors.request.use((req) => {
@@ -37,3 +37,5 @@ export const getNotification = (id) => API.get(`/notify/${id}`)
 export const uploadVideo = (fileData, fileOptions) =>
   API.post("/video/uploadVideo", fileData, fileOptions);
 export const getVideos = () => API.get("/video/getvideos");
+
+export const posttoken = (fcmtoken,userid) => API.post(`token/${userid}`,{fcmtoken})
