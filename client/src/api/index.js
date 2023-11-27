@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://rewardsystem-6c1a645e0d72.herokuapp.com/",
+  baseURL: "https://stackoverflow-be1d86034e20.herokuapp.com/",
 });
 
 API.interceptors.request.use((req) => {
