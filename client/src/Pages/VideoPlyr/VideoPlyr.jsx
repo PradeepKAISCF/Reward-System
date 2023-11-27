@@ -17,7 +17,7 @@ function Videoplayer() {
     if (player.current) {
         const plyr = new Plyr(player.current,{fullscreen:{ enabled: false, fallback: false, },clickToPlay:false});
 
-        let mouse;
+        let mouse,intervalId;
 
         plyr.on('dblclick',(e)=>{
           if(e.clientX < 300) {plyr.rewind(5)}
@@ -28,11 +28,19 @@ function Videoplayer() {
         plyr.on('mousedown',(e)=>{
           mouse = setTimeout(()=>{
             if (e.clientX >500){plyr.speed=2}
-            if (e.clientX < 300){plyr.speed=1}
-          },1000)
+            if (e.clientX < 300){
+              intervalId = setInterval(() => {
+                if (plyr.currentTime <= 0) {
+                  clearInterval(intervalId);
+                } else {
+                  plyr.rewind(0.05);
+                }
+              }, 10)
+            }
+          },500)
         })
 
-        plyr.on('mouseup',()=>{clearTimeout(mouse)})
+        plyr.on('mouseup',()=>{clearTimeout(mouse);plyr.speed=1;clearInterval(intervalId)})
 
         let spacebarTimer;
         let lastKeyPressed;
@@ -79,7 +87,7 @@ function Videoplayer() {
       </h1>
       <div style={{ width: '800px', height: '450px' }}>
           <video controls ref={player}  >
-            <source src={`https://stackoverflow-be1d86034e20.herokuapp.com/${vv.filePath}`} type="video/mp4" />
+            <source src={`https://rewardsystem-6c1a645e0d72.herokuapp.com/${vv.filePath}`} type="video/mp4" />
           </video>
       </div>
     </div>
